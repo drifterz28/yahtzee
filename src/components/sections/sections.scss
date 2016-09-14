@@ -1,0 +1,34 @@
+.boardWrapper {
+  width: 900px;
+  margin: 0 auto;
+}
+
+.upper {
+  display: flex;
+}
+
+.secionLabel {
+  border: 1px solid;
+  line-height: 2;
+  font-size: 18px;
+  display: flex;
+  .label {
+    padding-left: 20px;
+    flex-grow: 3;
+    width: 33%;
+  }
+  .scoreBox {
+    flex-grow: 2;
+    border-left: 1px solid;
+  }
+}
+
+.upperScore {
+  line-height: 4.15;
+}
+
+.lower,
+.upper {
+  width: 50%;
+  float: left;
+}
