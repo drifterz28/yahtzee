@@ -7,7 +7,7 @@
   display: flex;
 }
 
-.secionLabel {
+.sectionLabel {
   border: 1px solid;
   line-height: 2;
   font-size: 18px;
@@ -15,11 +15,13 @@
   .label {
     padding-left: 20px;
     flex-grow: 3;
-    width: 33%;
+    width: 50%;
   }
   .scoreBox {
     flex-grow: 2;
     border-left: 1px solid;
+    width: 25%;
+    text-align: center;
   }
 }
 

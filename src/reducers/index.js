@@ -1,2 +1,2 @@
-export npmPackages from './npmPackages'
-export npmPackage from './npmPackage'
+export dice from './dice';
+export scores from './scores';

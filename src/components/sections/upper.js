@@ -2,29 +2,48 @@ import React, { Component} from 'react';
 import {connect} from 'react-redux';
 import Section from './scoreSection';
 
+const sectionLabels = ['Ones', 'Twos', 'Threes', 'Fours', 'Fives', 'Sixes'];
+
 class UpperSection extends Component {
+  addUppers(dice, number) {
+    var total = dice.reduce(function(a, b) {
+      b = (b !== number) ? 0 : b;
+      return a + b;
+    }, 0);
+    return total;
+  }
+  addPoints = (label) => {
+    const {dice} = this.props.dice;
+    const number = sectionLabels.indexOf(label);
+    let points = this.addUppers(dice, number + 1);
+    let newDispatch = {};
+    newDispatch[label] = points;
+    this.setState(newDispatch);
+    console.log('add points', points);
+  }
   render() {
-    const sectionLabels = ['Ones', 'Twos', 'Threes', 'Fours', 'Fives', 'Sixes'];
     return (
       <section className="lower">
         {sectionLabels.map((label, i) => {
-          return <Section label={label} key={i}/>
+          const labelScore = this.state && this.state[label];
+          return <Section label={label} score={labelScore} key={i} addPoints={this.addPoints}/>
         })}
-        <div className="secionLabel lowerScore">
+
+        <div className="sectionLabel lowerScore">
           <div className="label">
             Upper Subtotal
           </div>
           <div className="scoreBox"></div>
           <div className="scoreBox"></div>
         </div>
-        <div className="secionLabel lowerScore">
+        <div className="sectionLabel lowerScore">
           <div className="label">
             Bonus
           </div>
           <div className="scoreBox"></div>
           <div className="scoreBox"></div>
         </div>
-        <div className="secionLabel lowerScore">
+        <div className="sectionLabel lowerScore">
           <div className="label">
             Upper Total
           </div>
@@ -37,7 +56,8 @@ class UpperSection extends Component {
 }
 
 function mapStateToProps(state) {
+  console.log(state)
   return state;
 }
 
-export default connect(null)(UpperSection);
+export default connect(mapStateToProps)(UpperSection);

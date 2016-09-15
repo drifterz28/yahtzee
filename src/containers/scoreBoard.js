@@ -19,4 +19,4 @@ function mapStateToProps(state) {
   return state;
 }
 
-export default connect(mapStateToProps)(ScoreBoard);
+export default connect(null)(ScoreBoard);
