@@ -2,8 +2,6 @@ import React, { Component} from 'react';
 import {connect} from 'react-redux';
 import Section from './scoreSection';
 
-const sectionLabels = ['Ones', 'Twos', 'Threes', 'Fours', 'Fives', 'Sixes'];
-
 class UpperSection extends Component {
   addUppers(dice, number) {
     var total = dice.reduce(function(a, b) {
@@ -29,11 +27,9 @@ class UpperSection extends Component {
       type: 'UPDATE_UPPER',
       upper
     });
-    console.log('add points', points);
   }
   render() {
     const {upper, scores} = this.props;
-    console.log('render', upper);
     return (
       <section className="lower">
         {upper.map((section, i) => {
@@ -67,7 +63,6 @@ class UpperSection extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log('upper state', state)
   return state;
 }
 
