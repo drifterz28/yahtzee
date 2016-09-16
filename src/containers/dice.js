@@ -13,11 +13,14 @@ class Dice extends Component {
     let {turn, holds} = this.props.dice;
     turn++;
     const diceRoll = this.rollDice();
-    this.props.dispatch({
-      'type': 'ROLL_DICE',
+    let dice = {
       'turn': turn,
       'dice': diceRoll,
       'holds': holds
+    };
+    this.props.dispatch({
+      'type': 'ROLL_DICE',
+      dice
     });
   }
   rollDice() {
@@ -31,7 +34,62 @@ class Dice extends Component {
     return dice;
   }
   play() {
-    console.log('play the points');
+    this.updateHoldsLower();
+    this.updateHoldsUpper();
+    this.updateScores()
+  }
+  updateHoldsLower() {
+    let {lower, dispatch} = this.props;
+    lower = lower.map(section => {
+      if(section.points) {
+        section.isLocked = true;
+      }
+      return section;
+    });
+    dispatch({
+      type: 'UPDATE_LOWER',
+      lower
+    });
+  }
+  updateHoldsUpper() {
+    let {upper, dispatch} = this.props;
+    upper = upper.map(section => {
+      if(section.points) {
+        section.isLocked = true;
+      }
+      return section;
+    });
+    dispatch({
+      type: 'UPDATE_UPPER',
+      upper
+    });
+  }
+  updateScores() {
+    let {upper, lower, scores, dispatch} = this.props;
+    let upperScore = upper.reduce(function(a, b) {
+      return a + b.points;
+    }, 0);
+    let lowerScore = lower.reduce(function(a, b) {
+      return a + b.points;
+    }, 0);
+
+    scores.upperScore = upperScore === 0 ? null : upperScore;
+    scores.lowerScore = lowerScore === 0 ? null : lowerScore;
+    scores.totalScore = upperScore + lowerScore;
+
+    dispatch({
+      type: 'UPDATE_SCORES',
+      scores
+    });
+
+    dispatch({
+      type: 'ROLL_DICE',
+      dice: {
+        turn: 0,
+        dice: [0,0,0,0,0],
+        holds: [false, false, false, false, false]
+      }
+    });
   }
   render() {
     const {turn, dice, holds} = this.props.dice;
@@ -52,7 +110,6 @@ class Dice extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log(state)
   return state;
 }
 

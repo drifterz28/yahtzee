@@ -7,18 +7,11 @@ const initialState = {
 };
 
 function update(state = initialState, action) {
-	let newState = {};
 	switch (action.type) {
 		case ROLL_DICE:
-			newState = {
-				turn: action.turn,
-				dice: action.dice,
-				holds: action.holds
-			};
-			return Object.assign({}, state, newState);
+			return Object.assign({}, state, action.dice);
 		case UPDATE_HOLDS:
-			newState.holds = action.holds;
-			return Object.assign({}, state, newState);
+			return Object.assign({}, state, action.dice);
 		default:
 			return state;
   }

@@ -3,21 +3,45 @@ import {connect} from 'react-redux';
 import Section from './scoreSection';
 
 class LowerSection extends Component {
-  addPoints(label) {
-    console.log(label)
+  addLower(dice, number) {
+    var total = dice.reduce(function(a, b) {
+      b = (b !== number) ? 0 : b;
+      return a + b;
+    }, 0);
+    return total;
+  }
+  addPoints = (number) => {
+    const {dice} = this.props.dice;
+    let {lower} = this.props;
+    // will need to work on how points are added.
+    // will use maxPoints for most items except
+    // match 3, 4 and chance
+    let points = this.addUppers(dice, number + 1);
+    lower = lower.map((section) => {
+      if(!section.isLocked) {
+        section.points = null;
+      }
+      return section;
+    });
+    lower[number].points = points;
+    this.props.dispatch({
+      type: 'UPDATE_LOWER',
+      lower
+    });
+    console.log('add points', points);
   }
   render() {
-    const sectionLabels = ['3 of a Kind', '4 of a Kind', 'Full House', 'Small Straight', 'Large Straight', 'Yahtzee', 'Chance'];
+    const {lower, scores} = this.props
     return (
       <section className="lower">
-        {sectionLabels.map((label, i) => {
-          return <Section label={label} key={i} addPoints={this.addPoints}/>
+        {lower.map((section, i) => {
+          return <Section key={i} addPoints={this.addPoints} index={i} section={section}/>
         })}
         <div className="sectionLabel upperScore">
           <div className="label">
             Lower Total
           </div>
-          <div className="scoreBox"></div>
+          <div className="scoreBox">{scores.lowerScore}</div>
           <div className="scoreBox"></div>
         </div>
       </section>

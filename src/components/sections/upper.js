@@ -12,28 +12,39 @@ class UpperSection extends Component {
     }, 0);
     return total;
   }
-  addPoints = (label) => {
+  addPoints = (number) => {
+    // will need to add Yahtzee check and give +50 points on
+    // top of the score and make display
     const {dice} = this.props.dice;
-    const number = sectionLabels.indexOf(label);
+    let {upper} = this.props;
     let points = this.addUppers(dice, number + 1);
-    let newDispatch = {};
-    newDispatch[label] = points;
-    this.setState(newDispatch);
+    upper = upper.map((section) => {
+      if(!section.isLocked) {
+        section.points = null;
+      }
+      return section;
+    });
+    upper[number].points = points;
+    this.props.dispatch({
+      type: 'UPDATE_UPPER',
+      upper
+    });
     console.log('add points', points);
   }
   render() {
+    const {upper, scores} = this.props;
+    console.log('render', upper);
     return (
       <section className="lower">
-        {sectionLabels.map((label, i) => {
-          const labelScore = this.state && this.state[label];
-          return <Section label={label} score={labelScore} key={i} addPoints={this.addPoints}/>
+        {upper.map((section, i) => {
+          return <Section key={i} index={i} addPoints={this.addPoints} section={section}/>
         })}
 
         <div className="sectionLabel lowerScore">
           <div className="label">
             Upper Subtotal
           </div>
-          <div className="scoreBox"></div>
+          <div className="scoreBox">{scores.upperScore}</div>
           <div className="scoreBox"></div>
         </div>
         <div className="sectionLabel lowerScore">
@@ -56,7 +67,7 @@ class UpperSection extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log(state)
+  console.log('upper state', state)
   return state;
 }
 

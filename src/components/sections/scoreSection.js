@@ -1,15 +1,17 @@
 import React, { Component} from 'react';
 
-const Section = ({label, i, score, addPoints}) => {
+const Section = ({addPoints, index, section}) => {
+  const {label, points, description} = section;
   const addPintsEvent = () => {
-    addPoints(label);
+    addPoints(index);
   }
   return (
     <div className="sectionLabel">
       <div className="label">
         {label}
+        <small className="helper">{description}</small>
       </div>
-      <div onClick={addPintsEvent} className="scoreBox">{score}</div>
+      <div onClick={addPintsEvent} className="scoreBox">{points}</div>
       <div className="scoreBox"></div>
     </div>
   );
