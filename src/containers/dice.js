@@ -40,6 +40,7 @@ class Dice extends Component {
   }
   updateHoldsLower() {
     let {lower, dispatch} = this.props;
+    console.log(lower)
     lower = lower.map(section => {
       if(section.points) {
         section.isLocked = true;
@@ -66,16 +67,22 @@ class Dice extends Component {
   }
   updateScores() {
     let {upper, lower, scores, dispatch} = this.props;
+
     let upperScore = upper.reduce(function(a, b) {
       return a + b.points;
     }, 0);
+
     let lowerScore = lower.reduce(function(a, b) {
       return a + b.points;
     }, 0);
 
+    if(upperScore >= 63) {
+      scores.upperBonus = 35;
+    }
+
     scores.upperScore = upperScore === 0 ? null : upperScore;
     scores.lowerScore = lowerScore === 0 ? null : lowerScore;
-    scores.totalScore = upperScore + lowerScore;
+    scores.totalScore = upperScore + lowerScore + scores.upperBonus;
 
     dispatch({
       type: 'UPDATE_SCORES',

@@ -10,19 +10,35 @@ class UpperSection extends Component {
     }, 0);
     return total;
   }
+  clearSections(sections) {
+    return sections.map((sec) => {
+      if(!sec.isLocked) {
+        sec.points = null;
+      }
+      return sec;
+    });
+  }
   addPoints = (number) => {
     // will need to add Yahtzee check and give +50 points on
     // top of the score and make display
     const {dice} = this.props.dice;
-    let {upper} = this.props;
+    let {upper, lower} = this.props;
+
+    if(upper[number].isLocked) {
+      return;
+    }
+
     let points = this.addUppers(dice, number + 1);
-    upper = upper.map((section) => {
-      if(!section.isLocked) {
-        section.points = null;
-      }
-      return section;
-    });
+    upper = this.clearSections(upper);
+    lower = this.clearSections(lower);
+
     upper[number].points = points;
+
+    this.props.dispatch({
+      type: 'UPDATE_LOWER',
+      lower
+    });
+
     this.props.dispatch({
       type: 'UPDATE_UPPER',
       upper
@@ -47,14 +63,14 @@ class UpperSection extends Component {
           <div className="label">
             Bonus
           </div>
-          <div className="scoreBox"></div>
+          <div className="scoreBox">{scores.upperBonus}</div>
           <div className="scoreBox"></div>
         </div>
         <div className="sectionLabel lowerScore">
           <div className="label">
             Upper Total
           </div>
-          <div className="scoreBox"></div>
+          <div className="scoreBox">{scores.upperBonus + scores.upperScore}</div>
           <div className="scoreBox"></div>
         </div>
       </section>

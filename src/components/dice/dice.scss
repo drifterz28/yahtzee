@@ -3,7 +3,7 @@
 	justify-content: center;
 	align-content: center;
 	width: 900px;
-  margin: 0 auto;
+	margin: 0 auto;
 }
 .dice {
 	border: 2px solid black;
@@ -27,65 +27,65 @@
 		top: calc(50% - 5px);
 		left: calc(50% - 5px);
 		transition: all 0.2s ease;
-    opacity: 0;
+		opacity: 0;
 		z-index: -1;
 	}
 }
 .one {
-  .dot:first-child {
-    opacity: 1;
-  }
+	.dot:first-child {
+		opacity: 1;
+	}
 }
 .two {
 	.dot:nth-child(1) {
 		transform: translate(130%, -130%);
-    opacity: 1;
+		opacity: 1;
 	}
 	.dot:nth-child(2) {
 		transform: translate(-130%, 130%);
-    opacity: 1;
+		opacity: 1;
 	}
 }
 .three {
 	@extend .two;
 	.dot:nth-child(3) {
 		transform: translate(0, 0);
-    opacity: 1;
+		opacity: 1;
 	}
 }
 .four {
 	.dot:nth-child(1) {
 		transform: translate(130%, 130%);
-    opacity: 1;
+		opacity: 1;
 	}
 	.dot:nth-child(2) {
 		transform: translate(-130%, -130%);
-    opacity: 1;
+		opacity: 1;
 	}
 	.dot:nth-child(3) {
 		transform: translate(130%, -130%);
-    opacity: 1;
+		opacity: 1;
 	}
 	.dot:nth-child(4) {
 		transform: translate(-130%, 130%);
-    opacity: 1;
+		opacity: 1;
 	}
 }
 .five {
 	@extend .four;
 	.dot:nth-child(5) {
 		transform: translate(0, 0);
-    opacity: 1;
+		opacity: 1;
 	}
 }
 .six {
 	@extend .four;
 	.dot:nth-child(5) {
 		transform: translate(130%, 0);
-    opacity: 1;
+		opacity: 1;
 	}
 	.dot:nth-child(6) {
 		transform: translate(-130%, 0);
-    opacity: 1;
+		opacity: 1;
 	}
 }

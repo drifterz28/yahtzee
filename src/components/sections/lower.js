@@ -6,18 +6,21 @@ class LowerSection extends Component {
   addDice(dice) {
     return dice.reduce(function(a, b) {
       return a + b;
-    }, 0);;
+    }, 0);
   }
   threeOfaKind(dice) {
+    console.log('three')
     if([...new Set(dice)].length <= 3) {
       return this.addDice(dice);
     }
+    return 0;
   }
   fourOfaKind(dice) {
     if([...new Set(dice)].length <= 2) {
       console.log('4')
       return this.addDice(dice);
     }
+    return 0;
   }
   getCountAndUnique(dice) {
     return dice.reduce(function(prev, cur) {
@@ -25,50 +28,81 @@ class LowerSection extends Component {
       return prev;
     }, {});
   }
+  clearSections(sections) {
+    return sections.map((sec) => {
+      if(!sec.isLocked) {
+        sec.points = null;
+      }
+      return sec;
+    });
+  }
+  isSmallStraight(dice) {
+    const combo = ['1234', '2345', '3456'];
+    let diceSort = dice.slice(0);
+    const diceString = diceSort.sort().join('');
+    for(let i = 0; i < combo.length; i++) {
+      if(diceString.indexOf(combo[i]) !== -1) {
+        return true;
+      }
+    }
+  }
+  isLargeStraight(dice) {
+    const combo = ['12345', '23456'];
+    let diceSort = dice.slice(0);
+    const diceString = diceSort.sort().join('');
+    for(let i = 0; i < combo.length; i++) {
+      if(diceString.indexOf(combo[i]) !== -1) {
+        return true;
+      }
+    }
+  }
   addPoints = (number) => {
     const {dice} = this.props.dice;
-    let {lower} = this.props;
-    // will need to work on how points are added.
-    // will use maxPoints for most items except
-    // match 3, 4 and chance
+    let {lower, upper} = this.props;
     let points = 0;
-    // clear unlocked points
-    lower = lower.map((section) => {
-      if(!section.isLocked) {
-        section.points = null;
-      }
-      return section;
-    });
+
+    if(lower[number].isLocked) {
+      return;
+    }
+
+    upper = this.clearSections(upper);
+    lower = this.clearSections(lower);
+
     console.log(this.getCountAndUnique(dice))
+
     switch(lower[number].label) {
-    case '3 of a Kind':
-      points = this.threeOfaKind(dice);
-      break;
-    case '4 of a Kind':
-      points = this.fourOfaKind(dice);
-      break;
-    case 'Chance':
-      points = this.addDice(dice);
-      break;
-    case 'Full House':
-      if([...new Set(dice)].length === 2) {
-        console.log('full');
-        points = lower[number].maxPoints;
-      }
-      break;
-    case 'Small Straight':
-      break;
-    case 'Large Straight':
-      break;
-    case 'Yahtzee':
-      if([...new Set(dice)].length === 1) {
-        points = lower[number].maxPoints;
-      }
-      break;
+      case '3 of a Kind':
+        points = this.threeOfaKind(dice);
+        break;
+      case '4 of a Kind':
+        points = this.fourOfaKind(dice);
+        break;
+      case 'Chance':
+        points = this.addDice(dice);
+        break;
+      case 'Full House':
+        if([...new Set(dice)].length === 2) {
+          points = lower[number].maxPoints;
+        }
+        break;
+      case 'Small Straight':
+        if(this.isSmallStraight(dice)) {
+          points = lower[number].maxPoints;
+        }
+        break;
+      case 'Large Straight':
+        if(this.isLargeStraight(dice)) {
+          points = lower[number].maxPoints;
+        }
+        break;
+      case 'Yahtzee':
+        if([...new Set(dice)].length === 1 && dice[0] !== 0) {
+          points = lower[number].maxPoints;
+        }
+        break;
     }
 
     lower[number].points = points;
-    console.log(lower)
     this.props.dispatch({
       type: 'UPDATE_LOWER',
       lower

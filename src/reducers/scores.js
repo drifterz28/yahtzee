@@ -4,6 +4,7 @@ const initialState = {
 	upperScore: null,
 	lowerScore: null,
 	totalScore: null,
+	upperBonus: null,
 	hasYahtzee: false
 };
 
