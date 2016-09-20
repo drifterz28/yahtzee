@@ -11,7 +11,10 @@ const Section = ({addPoints, index, section}) => {
         {label}
         <small className="helper">{description}</small>
       </div>
-      <div onClick={addPintsEvent} className="scoreBox">{points}</div>
+      <div onClick={addPintsEvent} className="scoreBox">
+        {points}
+        {section.hasBonus && <small className="bonus">+50</small>}
+      </div>
       <div className="scoreBox"></div>
     </div>
   );

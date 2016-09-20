@@ -69,6 +69,9 @@ class Dice extends Component {
     let {upper, lower, scores, dispatch} = this.props;
 
     let upperScore = upper.reduce(function(a, b) {
+      if(b.hasBonus) {
+        a = a + 50;
+      }
       return a + b.points;
     }, 0);
 
@@ -108,7 +111,7 @@ class Dice extends Component {
     }
     return (
       <div className="diceWrap">
-        {turn > 0 && turn < 3 && <div><button onClick={this.roll.bind(this)}>Roll {turn}</button></div>}
+        {turn > 0 && turn < 100 && <div><button onClick={this.roll.bind(this)}>Roll {turn}</button></div>}
         {turn > 0 ? die : <button onClick={this.roll.bind(this)} className="playBtn">Play</button>}
         {turn > 0 && <div><button onClick={this.play.bind(this)}>Play</button></div>}
       </div>

@@ -3,6 +3,9 @@ import {connect} from 'react-redux';
 import Section from './scoreSection';
 
 class UpperSection extends Component {
+  hasYahtzee(dice) {
+    return ([...new Set(dice)].length === 1 && dice[0] !== 0);
+  }
   addUppers(dice, number) {
     var total = dice.reduce(function(a, b) {
       b = (b !== number) ? 0 : b;
@@ -22,7 +25,7 @@ class UpperSection extends Component {
     // will need to add Yahtzee check and give +50 points on
     // top of the score and make display
     const {dice} = this.props.dice;
-    let {upper, lower} = this.props;
+    let {upper, lower, scores} = this.props;
 
     if(upper[number].isLocked) {
       return;
@@ -31,7 +34,9 @@ class UpperSection extends Component {
     let points = this.addUppers(dice, number + 1);
     upper = this.clearSections(upper);
     lower = this.clearSections(lower);
-
+    if(this.hasYahtzee(dice) && scores.hasYahtzee) {
+      upper[number].hasBonus = true;
+    }
     upper[number].points = points;
 
     this.props.dispatch({
@@ -51,12 +56,13 @@ class UpperSection extends Component {
         {upper.map((section, i) => {
           return <Section key={i} index={i} addPoints={this.addPoints} section={section}/>
         })}
-
         <div className="sectionLabel lowerScore">
           <div className="label">
             Upper Subtotal
           </div>
-          <div className="scoreBox">{scores.upperScore}</div>
+          <div className="scoreBox">
+            {scores.upperScore}
+          </div>
           <div className="scoreBox"></div>
         </div>
         <div className="sectionLabel lowerScore">
@@ -70,7 +76,7 @@ class UpperSection extends Component {
           <div className="label">
             Upper Total
           </div>
-          <div className="scoreBox">{scores.upperBonus + scores.upperScore}</div>
+          <div className="scoreBox">{scores.upperBonus && scores.upperBonus + scores.upperScore}</div>
           <div className="scoreBox"></div>
         </div>
       </section>
@@ -79,6 +85,7 @@ class UpperSection extends Component {
 }
 
 function mapStateToProps(state) {
+  console.log(state)
   return state;
 }
 

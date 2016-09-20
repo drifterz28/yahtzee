@@ -58,7 +58,7 @@ class LowerSection extends Component {
   }
   addPoints = (number) => {
     const {dice} = this.props.dice;
-    let {lower, upper} = this.props;
+    let {lower, upper, scores} = this.props;
     let points = 0;
 
     if(lower[number].isLocked) {
@@ -67,8 +67,6 @@ class LowerSection extends Component {
 
     upper = this.clearSections(upper);
     lower = this.clearSections(lower);
-
-    console.log(this.getCountAndUnique(dice))
 
     switch(lower[number].label) {
       case '3 of a Kind':
@@ -98,6 +96,7 @@ class LowerSection extends Component {
       case 'Yahtzee':
         if([...new Set(dice)].length === 1 && dice[0] !== 0) {
           points = lower[number].maxPoints;
+          scores.hasYahtzee = true;
         }
         break;
     }
