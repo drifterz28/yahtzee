@@ -51,6 +51,11 @@ class UpperSection extends Component {
   }
   render() {
     const {upper, scores} = this.props;
+    //scores.upperScore > 0 && scores.upperBonus + scores.upperScore + scores.yahtzeeBonus
+    let totalScore = 0;
+    totalScore += scores.upperScore ? scores.upperScore : 0;
+    totalScore += scores.upperBonus ? scores.upperBonus : 0;
+    totalScore += scores.upperYahtzee ? scores.upperYahtzee : 0;
     return (
       <section className="lower">
         {upper.map((section, i) => {
@@ -76,7 +81,7 @@ class UpperSection extends Component {
           <div className="label">
             Upper Total
           </div>
-          <div className="scoreBox">{scores.upperBonus && scores.upperBonus + scores.upperScore}</div>
+          <div className="scoreBox">{totalScore > 0 && totalScore}</div>
           <div className="scoreBox"></div>
         </div>
       </section>

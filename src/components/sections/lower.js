@@ -40,11 +40,13 @@ class LowerSection extends Component {
     const combo = ['1234', '2345', '3456'];
     let diceSort = dice.slice(0);
     const diceString = diceSort.sort().join('');
+
     for(let i = 0; i < combo.length; i++) {
       if(diceString.indexOf(combo[i]) !== -1) {
         return true;
       }
     }
+    return false;
   }
   isLargeStraight(dice) {
     const combo = ['12345', '23456'];
@@ -55,6 +57,7 @@ class LowerSection extends Component {
         return true;
       }
     }
+    return false;
   }
   addPoints = (number) => {
     const {dice} = this.props.dice;
@@ -67,7 +70,7 @@ class LowerSection extends Component {
 
     upper = this.clearSections(upper);
     lower = this.clearSections(lower);
-
+    console.log(lower[number].label)
     switch(lower[number].label) {
       case '3 of a Kind':
         points = this.threeOfaKind(dice);
@@ -84,6 +87,7 @@ class LowerSection extends Component {
         }
         break;
       case 'Small Straight':
+        console.log('is small', this.isSmallStraight(dice))
         if(this.isSmallStraight(dice)) {
           points = lower[number].maxPoints;
         }

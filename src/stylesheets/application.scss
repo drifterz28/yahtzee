@@ -49,7 +49,15 @@ table {
 
 html {
   box-sizing: border-box;
+	font-family: helvetica, sans-serif;
 }
 *, *:before, *:after {
   box-sizing: inherit;
 }
+
+.container {
+	width: 900px;
+	margin: 0 auto;
+}
+
+@import '/Components/buttons';

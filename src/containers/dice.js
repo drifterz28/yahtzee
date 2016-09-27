@@ -67,10 +67,10 @@ class Dice extends Component {
   }
   updateScores() {
     let {upper, lower, scores, dispatch} = this.props;
-
+    let yahtzeeBonus = 0;
     let upperScore = upper.reduce(function(a, b) {
       if(b.hasBonus) {
-        a = a + 50;
+        yahtzeeBonus = yahtzeeBonus + 50;
       }
       return a + b.points;
     }, 0);
@@ -85,7 +85,8 @@ class Dice extends Component {
 
     scores.upperScore = upperScore === 0 ? null : upperScore;
     scores.lowerScore = lowerScore === 0 ? null : lowerScore;
-    scores.totalScore = upperScore + lowerScore + scores.upperBonus;
+    scores.upperYahtzee = yahtzeeBonus;
+    scores.totalScore = upperScore + lowerScore + scores.upperBonus + yahtzeeBonus;
 
     dispatch({
       type: 'UPDATE_SCORES',

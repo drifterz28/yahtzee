@@ -6,6 +6,8 @@
 	margin: 0 auto;
 }
 .dice {
+	background-image: linear-gradient(to bottom, #fcfac0, #f6f283);
+	box-shadow: rgba(255, 255, 255, 0.701961) 0px 0.08em 0px inset, rgba(255, 255, 255, 0.498039) 0px 0px 0.08em inset;
 	border: 2px solid black;
 	border-radius: 5px;
 	width: 50px;
@@ -13,9 +15,9 @@
 	margin: 10px;
 	position: relative;
 	&.hold {
-		border-color: red;
+		border-color: #d20202;
 		.dot {
-			background: red;
+			background: #d20202;
 		}
 	}
 	.dot {
@@ -28,7 +30,7 @@
 		left: calc(50% - 5px);
 		transition: all 0.2s ease;
 		opacity: 0;
-		z-index: -1;
+		z-index: 0;
 	}
 }
 .one {
